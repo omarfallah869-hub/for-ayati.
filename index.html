@@ -40,15 +40,20 @@
 
         .img-container {
             width: 100%;
-            height: 170px;
+            height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
         }
-        .img-container svg {
-            width: 140px;
-            height: 140px;
+        .kitty-face {
+            font-size: 80px;
+            filter: drop-shadow(0 0 10px rgba(255,64,129,0.5));
+            animation: bounce 1.5s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
         }
 
         .dialogue-text {
@@ -158,16 +163,16 @@
 
     <div class="card-wrapper" id="card">
         <div class="img-container" id="imgBox">
-            <div id="kittyGraphic"></div>
+            <div class="kitty-face" id="kittyIcon">🐱🎀</div>
         </div>
         <div class="dialogue-text" id="sceneText">أنتِ آياتي؟ 🥺</div>
         
         <div id="btnArea">
-            <button class="action-btn" id="nextBtn" onclick="nextStep()">هلو 💕</button>
+            <button class="action-btn" id="mainBtn" onclick="handleStep()">هلو 💕</button>
         </div>
 
         <div class="player-box" id="musicPlayer">
-            <img id="loveCover" src="my-love.jpg" alt="آياتي" class="cover-photo">
+            <img src="my-love.jpg" alt="آياتي" class="cover-photo">
             <div class="player-title">رحمة رياض - ويلي 🎵</div>
             <div class="player-bar">
                 <div class="player-progress"></div>
@@ -180,29 +185,82 @@
         </div>
     </div>
 
-    <audio id="bgSong" src="song.mp3" preload="auto" loop></audio>
+    <audio id="bgSong" src="song.mp3" loop preload="auto"></audio>
 
     <script>
-        let currentStep = 0;
+        let step = 0;
         const audio = document.getElementById('bgSong');
 
-        // رسومات تفاعلية مختلفة لهيلو كيتي لكل خطوة
-        const kittyTemplates = {
-            normal: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#222" stroke-width="6" stroke-linejoin="round"/>
-                <circle cx="150" cy="45" r="14" fill="#ff4081" stroke="#222" stroke-width="5"/>
-                <ellipse cx="130" cy="38" rx="16" ry="12" fill="#ff80ab" stroke="#222" stroke-width="5" transform="rotate(-15 130 38)"/>
-                <ellipse cx="170" cy="52" rx="16" ry="12" fill="#ff80ab" stroke="#222" stroke-width="5" transform="rotate(-15 170 52)"/>
-                <ellipse cx="65" cy="88" rx="7" ry="10" fill="#222"/>
-                <ellipse cx="135" cy="88" rx="7" ry="10" fill="#222"/>
-                <ellipse cx="100" cy="98" rx="9" ry="7" fill="#fbc02d" stroke="#222" stroke-width="3"/>
-                <line x1="25" y1="85" x2="52" y2="88" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="22" y1="98" x2="50" y2="98" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="25" y1="110" x2="52" y2="106" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="175" y1="85" x2="148" y2="88" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="178" y1="98" x2="150" y2="98" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="175" y1="110" x2="148" y2="106" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-            </svg>`,
-            shy: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 4
-                
+        const scenes = [
+            { icon: "🙈🎀", text: "أيوته.. عندي سؤاال 🙈", btn: "شنو هو؟ 💕" },
+            { icon: "👉👈🥺", text: "بس مستحي أسألج إياه 👉👈 🥺", btn: "اسألني.. يلا ❤️" },
+            { icon: "👀💖", text: "تحبين عمر لو لا؟ 👀💖", btn: "ها؟ 🙈" },
+            { icon: "🥺🌸", text: "شنو ها؟ تحبين عمر لو لا؟ 🥺", btn: "مدري 🤭" },
+            { icon: "💖✨", text: "إذا تحبين عمر.. دوسي على هذا القلب 💖", isHeart: true },
+            { 
+                hideIcon: true,
+                text: "في حبكِ ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nوقلبي يهواكِ ويناديكِ،\nولو كان لي ألف قلب لأحببتكِ ولن يكفيني..\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
+                finish: true 
+            }
+        ];
+
+        function handleStep() {
+            // محاولة تشغيل الصوت دون إيقاف الكود في حال الرفض
+            try {
+                if (audio.paused) {
+                    audio.play().catch(function(){});
+                }
+            } catch(e) {}
+
+            if (step < scenes.length) {
+                const s = scenes[step];
+                const kittyIcon = document.getElementById('kittyIcon');
+                const sceneText = document.getElementById('sceneText');
+                const btnArea = document.getElementById('btnArea');
+                const imgBox = document.getElementById('imgBox');
+
+                sceneText.innerText = s.text;
+
+                if (s.hideIcon) {
+                    imgBox.style.display = 'none';
+                } else {
+                    kittyIcon.innerText = s.icon;
+                }
+
+                if (s.isHeart) {
+                    btnArea.innerHTML = `<button class="big-heart-btn" onclick="handleStep()">💖</button>`;
+                } else if (s.finish) {
+                    document.getElementById('musicPlayer').style.display = 'block';
+                    btnArea.innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 18px; margin-top: 15px;">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
+                } else {
+                    btnArea.innerHTML = `<button class="action-btn" onclick="handleStep()">${s.btn}</button>`;
+                }
+
+                step++;
+            }
+        }
+
+        function toggleAudio() {
+            const playIcon = document.getElementById('playIcon');
+            if (audio.paused) {
+                audio.play();
+                playIcon.innerText = "⏸️";
+            } else {
+                audio.pause();
+                playIcon.innerText = "▶️";
+            }
+        }
+
+        setInterval(function() {
+            const h = document.createElement('div');
+            h.innerHTML = '💖';
+            h.className = 'heart-particle';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = Math.random() * 14 + 12 + 'px';
+            h.style.animationDuration = Math.random() * 3 + 2.5 + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }, 400);
+    </script>
+</body>
+</html>
