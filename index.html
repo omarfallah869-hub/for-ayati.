@@ -14,135 +14,185 @@
             padding: 0;
         }
         body {
-            background-color: #161219;
+            background: linear-gradient(135deg, #0d0811 0%, #1c0e25 100%);
             font-family: 'Kufam', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 16px;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
         }
         
+        /* تأثير النجوم المتلألئة والقلوب في الخلفية */
+        .bg-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255, 64, 129, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
         .card-wrapper {
             width: 100%;
-            max-width: 350px;
-            background: rgba(30, 22, 34, 0.98);
-            border: 2px solid #ff4081;
-            border-radius: 28px;
-            box-shadow: 0 0 25px rgba(255, 64, 129, 0.45);
-            padding: 24px 20px;
+            max-width: 365px;
+            background: rgba(18, 11, 25, 0.95);
+            border: 2px solid rgba(255, 64, 129, 0.6);
+            border-radius: 32px;
+            box-shadow: 0 0 40px rgba(255, 64, 129, 0.25), inset 0 0 15px rgba(255, 64, 129, 0.1);
+            padding: 28px 24px;
             text-align: center;
             position: relative;
             z-index: 10;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
         }
 
         .img-container {
             width: 100%;
-            height: 160px;
+            height: 190px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            position: relative;
         }
-        .kitty-face {
-            font-size: 80px;
-            filter: drop-shadow(0 0 10px rgba(255,64,129,0.5));
-            animation: bounce 1.5s infinite alternate;
+
+        /* تنسيق رسومات Hello Kitty الفاخرة */
+        .kitty-graphics {
+            width: 160px;
+            height: 160px;
+            filter: drop-shadow(0 8px 16px rgba(255, 64, 129, 0.3));
+            animation: float 3s ease-in-out infinite;
         }
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
         }
 
         .dialogue-text {
             color: #ffffff;
-            font-size: 16px;
-            line-height: 1.9;
-            margin-bottom: 20px;
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 24px;
             white-space: pre-line;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 55px;
+            min-height: 60px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            font-weight: 600;
         }
 
         .action-btn {
-            background: #ff4081;
+            background: linear-gradient(135deg, #ff4081 0%, #e91e63 100%);
             color: #ffffff;
             border: none;
-            border-radius: 22px;
-            padding: 12px 34px;
+            border-radius: 50px;
+            padding: 14px 45px;
             font-size: 16px;
             font-weight: 800;
             font-family: 'Kufam', sans-serif;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
-            transition: transform 0.15s ease;
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%; width: 200%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: 0.75s;
+            opacity: 0;
+        }
+        .action-btn:hover::after {
+            left: 125%;
+            opacity: 1;
         }
         .action-btn:active {
             transform: scale(0.95);
+            box-shadow: 0 3px 10px rgba(255, 64, 129, 0.4);
         }
 
         .big-heart-btn {
             background: none;
             border: none;
-            font-size: 65px;
+            font-size: 75px;
             cursor: pointer;
             animation: pulseHeart 1.2s infinite;
-            filter: drop-shadow(0 0 14px rgba(255, 64, 129, 0.8));
+            filter: drop-shadow(0 0 20px rgba(255, 64, 129, 0.8));
+            transition: transform 0.2s;
         }
         @keyframes pulseHeart {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.18); }
         }
 
+        /* مشغل الموسيقى الفخم */
         .player-box {
             display: none;
-            background: rgba(255, 64, 129, 0.12);
-            border: 1px solid rgba(255, 64, 129, 0.35);
-            border-radius: 20px;
-            padding: 16px;
+            background: rgba(255, 64, 129, 0.08);
+            border: 1px solid rgba(255, 64, 129, 0.3);
+            border-radius: 24px;
+            padding: 20px;
             margin-top: 15px;
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .cover-photo {
-            width: 140px;
-            height: 140px;
-            border-radius: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #ff4081;
-            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
-            margin: 0 auto 12px auto;
+            border: 3px solid #ff4081;
+            box-shadow: 0 0 20px rgba(255, 64, 129, 0.5);
+            margin: 0 auto 16px auto;
             display: block;
+            animation: spin 12s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .player-title {
             color: #ff80ab;
-            font-size: 14px;
-            margin-bottom: 10px;
-            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 12px;
+            font-weight: 800;
         }
         .player-bar {
             width: 100%;
             height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         .player-progress {
-            width: 65%;
+            width: 45%;
             height: 100%;
-            background: #ff4081;
+            background: linear-gradient(90deg, #ff4081, #ff80ab);
             box-shadow: 0 0 8px #ff4081;
-            border-radius: 3px;
+            border-radius: 10px;
+            animation: fillBar 15s linear infinite;
+        }
+        @keyframes fillBar {
+            0% { width: 10%; }
+            100% { width: 95%; }
         }
         .player-controls {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            font-size: 22px;
+            gap: 30px;
+            font-size: 24px;
             color: #ffffff;
             cursor: pointer;
         }
@@ -153,6 +203,7 @@
             pointer-events: none;
             z-index: 1;
             animation: fall linear forwards;
+            opacity: 0.8;
         }
         @keyframes fall {
             to { transform: translateY(105vh) rotate(360deg); }
@@ -161,18 +212,21 @@
 </head>
 <body>
 
+    <div class="bg-overlay"></div>
+
     <div class="card-wrapper" id="card">
         <div class="img-container" id="imgBox">
-            <div class="kitty-face" id="kittyIcon">🐱🎀</div>
+            <div class="kitty-graphics" id="kittyPlaceholder"></div>
         </div>
         <div class="dialogue-text" id="sceneText">أنتِ آياتي؟ 🥺</div>
         
         <div id="btnArea">
-            <button class="action-btn" id="mainBtn" onclick="handleStep()">هلو 💕</button>
+            <button class="action-btn" id="nextBtn" onclick="nextStep()">هلو 💕</button>
         </div>
 
+        <!-- مشغل الأغنية مع صورتها كغلاف -->
         <div class="player-box" id="musicPlayer">
-            <img src="my-love.jpg" alt="آياتي" class="cover-photo">
+            <img id="loveCover" src="my-love.jpg" alt="آياتي" class="cover-photo">
             <div class="player-title">رحمة رياض - ويلي 🎵</div>
             <div class="player-bar">
                 <div class="player-progress"></div>
@@ -185,82 +239,182 @@
         </div>
     </div>
 
-    <audio id="bgSong" src="song.mp3" loop preload="auto"></audio>
+    <!-- ملف الصوت المرفوع في المستودع -->
+    <audio id="bgSong" src="song.mp3" preload="auto" loop></audio>
 
     <script>
-        let step = 0;
-        const audio = document.getElementById('bgSong');
+        // رسومات Hello Kitty الفاخرة والدقيقة كرتونياً (بدقة عالية 100%)
+        const kittySVGs = {
+            // 1. هيلو كيتي تسأل بخجل لطيف
+            asking: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <!-- الرأس والأذنان -->
+                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5" stroke-linejoin="round"/>
+                <!-- الفيونكة الوردية الفخمة -->
+                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
+                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
+                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
+                <!-- العيون السوداء واللمعة -->
+                <ellipse cx="65" cy="85" rx="6.5" ry="9.5" fill="#1d1d1d"/>
+                <ellipse cx="135" cy="85" rx="6.5" ry="9.5" fill="#1d1d1d"/>
+                <!-- الأنف الأصفر اللطيف -->
+                <ellipse cx="100" cy="95" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
+                <!-- الشوارب -->
+                <line x1="28" y1="84" x2="51" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="25" y1="96" x2="49" y2="96" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="28" y1="108" x2="51" y2="104" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="84" x2="149" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="175" y1="96" x2="151" y2="96" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="108" x2="149" y2="104" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <!-- حركة اليدين للخجل -->
+                <ellipse cx="60" cy="128" rx="8" ry="12" fill="#ffffff" stroke="#1d1d1d" stroke-width="3" transform="rotate(30 60 128)"/>
+                <ellipse cx="140" cy="128" rx="8" ry="12" fill="#ffffff" stroke="#1d1d1d" stroke-width="3" transform="rotate(-30 140 128)"/>
+            </svg>`,
+            
+            // 2. حركة خجل غامرة بالأصابع المتقاربة لجهة الداخل بدقة (👉👈)
+            shy: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5" stroke-linejoin="round"/>
+                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
+                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
+                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
+                <!-- عيون مغلقة تعبر عن الخجل والامتنان -->
+                <path d="M 54 84 Q 64 76 74 84" fill="none" stroke="#1d1d1d" stroke-width="5" stroke-linecap="round"/>
+                <path d="M 126 84 Q 136 76 146 84" fill="none" stroke="#1d1d1d" stroke-width="5" stroke-linecap="round"/>
+                <!-- وجنتان خجولتان باللون الوردي -->
+                <ellipse cx="48" cy="98" rx="11" ry="6" fill="#ff80ab" opacity="0.8"/>
+                <ellipse cx="152" cy="98" rx="11" ry="6" fill="#ff80ab" opacity="0.8"/>
+                <ellipse cx="100" cy="94" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
+                <line x1="28" y1="84" x2="46" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="28" y1="108" x2="46" y2="104" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="84" x2="154" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="108" x2="154" y2="104" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <!-- اليدين تلامس بعضهما في حركة الخجل الأصلية 👉 👈 متقابلتان للداخل بالكامل -->
+                <g transform="translate(68, 125)">
+                    <!-- يد يسرى تشير لليمين 👉 -->
+                    <path d="M 0 5 C 0 0, 15 0, 15 5 L 15 10 C 15 13, 0 13, 0 10 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3.5"/>
+                    <path d="M 15 3 C 15 0, 32 0, 32 4 L 32 6 C 32 10, 15 10, 15 6 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3.5"/>
+                    <!-- يد يمنى تشير لليسرى 👈 متطابقة للداخل -->
+                    <path d="M 64 5 C 64 0, 49 0, 49 5 L 49 10 C 49 13, 64 13, 64 10 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3.5"/>
+                    <path d="M 49 3 C 49 0, 32 0, 32 4 L 32 6 C 32 10, 49 10, 49 6 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3.5"/>
+                </g>
+            </svg>`,
 
-        const scenes = [
-            { icon: "🙈🎀", text: "أيوته.. عندي سؤاال 🙈", btn: "شنو هو؟ 💕" },
-            { icon: "👉👈🥺", text: "بس مستحي أسألج إياه 👉👈 🥺", btn: "اسألني.. يلا ❤️" },
-            { icon: "👀💖", text: "تحبين عمر لو لا؟ 👀💖", btn: "ها؟ 🙈" },
-            { icon: "🥺🌸", text: "شنو ها؟ تحبين عمر لو لا؟ 🥺", btn: "مدري 🤭" },
-            { icon: "💖✨", text: "إذا تحبين عمر.. دوسي على هذا القلب 💖", isHeart: true },
-            { 
-                hideIcon: true,
+            // 3. حركة تفكير وتساؤل لطيفة بالغمزة والميلان
+            thinking: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" transform="rotate(-5)">
+                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5" stroke-linejoin="round"/>
+                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
+                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
+                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
+                <!-- عين تغمز بسعادة وأخرى مفتوحة -->
+                <path d="M 52 86 Q 64 94 74 86" fill="none" stroke="#1d1d1d" stroke-width="5.5" stroke-linecap="round"/>
+                <ellipse cx="132" cy="85" rx="6.5" ry="9.5" fill="#1d1d1d"/>
+                <ellipse cx="100" cy="95" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
+                <line x1="28" y1="84" x2="51" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="25" y1="96" x2="49" y2="96" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="84" x2="149" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="175" y1="96" x2="151" y2="96" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <!-- يد تلامس الوجه للتفكير واليد الأخرى بالأسفل -->
+                <ellipse cx="62" cy="112" rx="9" ry="12" fill="#ffffff" stroke="#1d1d1d" stroke-width="3" transform="rotate(-30 62 112)"/>
+                <ellipse cx="135" cy="128" rx="8" ry="11" fill="#ffffff" stroke="#1d1d1d" stroke-width="3" transform="rotate(-15 135 128)"/>
+            </svg>`,
+
+            // 4. حركة الحُب والبهجة مع القلوب الكبيرة
+            love: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5" stroke-linejoin="round"/>
+                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
+                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
+                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
+                <!-- عيون قلوب حُب ملونة -->
+                <g fill="#ff4081">
+                    <!-- قلب يسار -->
+                    <path d="M 52 82 C 45 72, 33 78, 43 89 L 57 101 L 71 89 C 81 78, 69 72, 62 82 Z" transform="scale(0.85) translate(10, 10)"/>
+                    <!-- قلب يمين -->
+                    <path d="M 122 82 C 115 72, 103 78, 113 89 L 127 101 L 141 89 C 151 78, 139 72, 132 82 Z" transform="scale(0.85) translate(23, 10)"/>
+                </g>
+                <ellipse cx="100" cy="98" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
+                <line x1="28" y1="84" x2="49" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="28" y1="108" x2="49" y2="104" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="84" x2="151" y2="87" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <line x1="172" y1="108" x2="151" y2="104" stroke="#1d1d1d" stroke-width="4" stroke-linecap="round"/>
+                <!-- يدين مرتفعتين فرحاً -->
+                <ellipse cx="45" cy="115" rx="9" ry="13" fill="#ffffff" stroke="#1d1d1d" stroke-width="3" transform="rotate(-40 45 115)"/>
+                <ellipse cx="155" cy="115" rx="9" ry="13" fill="#ffffff" stroke="#1d1d1d" stroke-width="3" transform="rotate(40 155 115)"/>
+            </svg>`
+        };
+
+        const steps = [
+            {
+                graphic: kittySVGs.asking,
+                text: "أيوته.. عندي سؤاال 🙈",
+                btn: "شنو هو؟ 💕"
+            },
+            {
+                graphic: kittySVGs.shy,
+                text: "بس مستحي أسألج إياه 👉👈 🥺",
+                btn: "اسألني.. يلا ❤️"
+            },
+            {
+                graphic: kittySVGs.thinking,
+                text: "تحبين عمر لو لا؟ 👀💖",
+                btn: "ها؟ 🙈"
+            },
+            {
+                graphic: kittySVGs.shy,
+                text: "شنو ها؟ تحبين عمر لو لا؟ 🥺",
+                btn: "مدري 🤭"
+            },
+            {
+                graphic: kittySVGs.love,
+                text: "إذا تحبين عمر.. دوسي على هذا القلب 💖",
+                isHeart: true
+            },
+            {
+                hideImg: true,
                 text: "في حبكِ ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nوقلبي يهواكِ ويناديكِ،\nولو كان لي ألف قلب لأحببتكِ ولن يكفيني..\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
-                finish: true 
+                showPlayer: true
             }
         ];
 
-        function handleStep() {
-            // محاولة تشغيل الصوت دون إيقاف الكود في حال الرفض
-            try {
-                if (audio.paused) {
-                    audio.play().catch(function(){});
-                }
-            } catch(e) {}
+        // ضبط الرسمة الأولى تلقائياً عند التحميل
+        document.getElementById('kittyPlaceholder').innerHTML = kittySVGs.asking;
 
-            if (step < scenes.length) {
-                const s = scenes[step];
-                const kittyIcon = document.getElementById('kittyIcon');
+        let currentStep = 0;
+        const audio = document.getElementById('bgSong');
+
+        function nextStep() {
+            // محاولة تشغيل الصوت مع أول لمسة
+            if (audio.paused) {
+                audio.play().catch(function(e) {
+                    console.log("Audio autostart wait", e);
+                });
+            }
+
+            if (currentStep < steps.length) {
+                const s = steps[currentStep];
+                const imgBox = document.getElementById('imgBox');
+                const kittyPlaceholder = document.getElementById('kittyPlaceholder');
                 const sceneText = document.getElementById('sceneText');
                 const btnArea = document.getElementById('btnArea');
-                const imgBox = document.getElementById('imgBox');
 
                 sceneText.innerText = s.text;
 
-                if (s.hideIcon) {
+                if (s.hideImg) {
                     imgBox.style.display = 'none';
-                } else {
-                    kittyIcon.innerText = s.icon;
+                } else if (s.graphic) {
+                    kittyPlaceholder.innerHTML = s.graphic;
                 }
 
                 if (s.isHeart) {
-                    btnArea.innerHTML = `<button class="big-heart-btn" onclick="handleStep()">💖</button>`;
-                } else if (s.finish) {
+                    btnArea.innerHTML = `<button class="big-heart-btn" onclick="nextStep()">💖</button>`;
+                } else if (s.showPlayer) {
                     document.getElementById('musicPlayer').style.display = 'block';
-                    btnArea.innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 18px; margin-top: 15px;">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
+                    btnArea.innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 20px; margin-top: 15px; text-shadow: 0 0 10px rgba(255,64,129,0.3)">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
                 } else {
-                    btnArea.innerHTML = `<button class="action-btn" onclick="handleStep()">${s.btn}</button>`;
+                    btnArea.innerHTML = `<button class="action-btn" onclick="nextStep()">${s.btn}</button>`;
                 }
 
-                step++;
+                currentStep++;
             }
         }
 
         function toggleAudio() {
-            const playIcon = document.getElementById('playIcon');
-            if (audio.paused) {
-                audio.play();
-                playIcon.innerText = "⏸️";
-            } else {
-                audio.pause();
-                playIcon.innerText = "▶️";
-            }
-        }
-
-        setInterval(function() {
-            const h = document.createElement('div');
-            h.innerHTML = '💖';
-            h.className = 'heart-particle';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = Math.random() * 14 + 12 + 'px';
-            h.style.animationDuration = Math.random() * 3 + 2.5 + 's';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 400);
-    </script>
-</body>
-</html>
+            const playIcon = document.getElementById('p
