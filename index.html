@@ -158,27 +158,7 @@
 
     <div class="card-wrapper" id="card">
         <div class="img-container" id="imgBox">
-            <!-- شكل هيلو كيتي اللطيف المدمج مباشرة بالكود -->
-            <svg id="kittySvg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <!-- الرأس والأذنان -->
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#222" stroke-width="6" stroke-linejoin="round"/>
-                <!-- الفيونكة الوردية -->
-                <circle cx="150" cy="45" r="14" fill="#ff4081" stroke="#222" stroke-width="5"/>
-                <ellipse cx="130" cy="38" rx="16" ry="12" fill="#ff80ab" stroke="#222" stroke-width="5" transform="rotate(-15 130 38)"/>
-                <ellipse cx="170" cy="52" rx="16" ry="12" fill="#ff80ab" stroke="#222" stroke-width="5" transform="rotate(-15 170 52)"/>
-                <!-- العينان -->
-                <ellipse cx="65" cy="88" rx="7" ry="10" fill="#222"/>
-                <ellipse cx="135" cy="88" rx="7" ry="10" fill="#222"/>
-                <!-- الأنف الأصفر -->
-                <ellipse cx="100" cy="98" rx="9" ry="7" fill="#fbc02d" stroke="#222" stroke-width="3"/>
-                <!-- الشوارب -->
-                <line x1="25" y1="85" x2="52" y2="88" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="22" y1="98" x2="50" y2="98" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="25" y1="110" x2="52" y2="106" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="175" y1="85" x2="148" y2="88" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="178" y1="98" x2="150" y2="98" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-                <line x1="175" y1="110" x2="148" y2="106" stroke="#222" stroke-width="5" stroke-linecap="round"/>
-            </svg>
+            <div id="kittyGraphic"></div>
         </div>
         <div class="dialogue-text" id="sceneText">أنتِ آياتي؟ 🥺</div>
         
@@ -186,7 +166,6 @@
             <button class="action-btn" id="nextBtn" onclick="nextStep()">هلو 💕</button>
         </div>
 
-        <!-- مشغل الأغنية مع صورتها كغلاف -->
         <div class="player-box" id="musicPlayer">
             <img id="loveCover" src="my-love.jpg" alt="آياتي" class="cover-photo">
             <div class="player-title">رحمة رياض - ويلي 🎵</div>
@@ -201,95 +180,29 @@
         </div>
     </div>
 
-    <!-- ملف الصوت المرفوع في المستودع -->
     <audio id="bgSong" src="song.mp3" preload="auto" loop></audio>
 
     <script>
         let currentStep = 0;
         const audio = document.getElementById('bgSong');
 
-        const steps = [
-            {
-                text: "أيوته.. عندي سؤاال 🙈",
-                btn: "شنو هو؟ 💕"
-            },
-            {
-                text: "بس مستحي أسألج إياه 👉👈 🥺",
-                btn: "اسألني.. يلا ❤️"
-            },
-            {
-                text: "تحبين عمر لو لا؟ 👀💖",
-                btn: "ها؟ 🙈"
-            },
-            {
-                text: "شنو ها؟ تحبين عمر لو لا؟ 🥺",
-                btn: "مدري 🤭"
-            },
-            {
-                text: "إذا تحبين عمر.. دوسي على هذا القلب 💖",
-                isHeart: true
-            },
-            {
-                hideImg: true,
-                text: "في حبكِ ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nوقلبي يهواكِ ويناديكِ،\nولو كان لي ألف قلب لأحببتكِ ولن يكفيني..\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
-                showPlayer: true
-            }
-        ];
-
-        function nextStep() {
-            // تشغيل الصوت فور أول لمسة للموقع
-            if (audio.paused) {
-                audio.play().catch(function(e) {
-                    console.log("Audio waiting:", e);
-                });
-            }
-
-            if (currentStep < steps.length) {
-                const s = steps[currentStep];
-                const imgBox = document.getElementById('imgBox');
-                const sceneText = document.getElementById('sceneText');
-                const btnArea = document.getElementById('btnArea');
-
-                sceneText.innerText = s.text;
-
-                if (s.hideImg) {
-                    imgBox.style.display = 'none';
-                }
-
-                if (s.isHeart) {
-                    btnArea.innerHTML = `<button class="big-heart-btn" onclick="nextStep()">💖</button>`;
-                } else if (s.showPlayer) {
-                    document.getElementById('musicPlayer').style.display = 'block';
-                    btnArea.innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 19px; margin-top: 15px;">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
-                } else {
-                    btnArea.innerHTML = `<button class="action-btn" onclick="nextStep()">${s.btn}</button>`;
-                }
-
-                currentStep++;
-            }
-        }
-
-        function toggleAudio() {
-            const playIcon = document.getElementById('playIcon');
-            if (audio.paused) {
-                audio.play();
-                playIcon.innerText = "⏸️";
-            } else {
-                audio.pause();
-                playIcon.innerText = "▶️";
-            }
-        }
-
-        setInterval(function() {
-            const h = document.createElement('div');
-            h.innerHTML = '💖';
-            h.className = 'heart-particle';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = Math.random() * 14 + 12 + 'px';
-            h.style.animationDuration = Math.random() * 3 + 2.5 + 's';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 400);
-    </script>
-</body>
-</html>
+        // رسومات تفاعلية مختلفة لهيلو كيتي لكل خطوة
+        const kittyTemplates = {
+            normal: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#222" stroke-width="6" stroke-linejoin="round"/>
+                <circle cx="150" cy="45" r="14" fill="#ff4081" stroke="#222" stroke-width="5"/>
+                <ellipse cx="130" cy="38" rx="16" ry="12" fill="#ff80ab" stroke="#222" stroke-width="5" transform="rotate(-15 130 38)"/>
+                <ellipse cx="170" cy="52" rx="16" ry="12" fill="#ff80ab" stroke="#222" stroke-width="5" transform="rotate(-15 170 52)"/>
+                <ellipse cx="65" cy="88" rx="7" ry="10" fill="#222"/>
+                <ellipse cx="135" cy="88" rx="7" ry="10" fill="#222"/>
+                <ellipse cx="100" cy="98" rx="9" ry="7" fill="#fbc02d" stroke="#222" stroke-width="3"/>
+                <line x1="25" y1="85" x2="52" y2="88" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+                <line x1="22" y1="98" x2="50" y2="98" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+                <line x1="25" y1="110" x2="52" y2="106" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+                <line x1="175" y1="85" x2="148" y2="88" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+                <line x1="178" y1="98" x2="150" y2="98" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+                <line x1="175" y1="110" x2="148" y2="106" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+            </svg>`,
+            shy: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 4
+                
