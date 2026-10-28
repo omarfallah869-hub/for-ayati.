@@ -14,40 +14,41 @@
             padding: 0;
         }
         body {
-            background-color: #201b22;
+            background-color: #1a161f;
             font-family: 'Kufam', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            padding: 16px;
             overflow-x: hidden;
             position: relative;
         }
         
         .card-wrapper {
-            width: 320px;
-            background: rgba(30, 24, 33, 0.95);
+            width: 100%;
+            max-width: 350px;
+            background: rgba(28, 22, 32, 0.96);
             border: 2px solid #ff4081;
             border-radius: 28px;
-            box-shadow: 0 0 25px rgba(255, 64, 129, 0.4);
+            box-shadow: 0 0 25px rgba(255, 64, 129, 0.45);
             padding: 24px 20px;
             text-align: center;
             position: relative;
             z-index: 10;
-            transition: all 0.4s ease;
         }
 
         .img-container {
             width: 100%;
-            height: 200px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .img-container img {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 180px;
             object-fit: contain;
             border-radius: 16px;
         }
@@ -55,8 +56,7 @@
         .dialogue-text {
             color: #ffffff;
             font-size: 16px;
-            line-height: 1.8;
-            min-height: 55px;
+            line-height: 1.9;
             margin-bottom: 20px;
             white-space: pre-line;
             display: flex;
@@ -68,14 +68,14 @@
             background: #ff4081;
             color: #ffffff;
             border: none;
-            border-radius: 20px;
-            padding: 12px 35px;
+            border-radius: 22px;
+            padding: 12px 34px;
             font-size: 16px;
             font-weight: 800;
             font-family: 'Kufam', sans-serif;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.15s ease;
         }
         .action-btn:active {
             transform: scale(0.95);
@@ -87,25 +87,36 @@
             font-size: 65px;
             cursor: pointer;
             animation: pulseHeart 1.2s infinite;
-            filter: drop-shadow(0 0 12px rgba(255, 64, 129, 0.8));
+            filter: drop-shadow(0 0 14px rgba(255, 64, 129, 0.8));
         }
         @keyframes pulseHeart {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+            50% { transform: scale(1.18); }
         }
 
         .player-box {
             display: none;
-            background: rgba(255, 64, 129, 0.1);
-            border: 1px solid rgba(255, 64, 129, 0.3);
+            background: rgba(255, 64, 129, 0.12);
+            border: 1px solid rgba(255, 64, 129, 0.35);
             border-radius: 20px;
-            padding: 15px;
+            padding: 16px;
             margin-top: 15px;
+        }
+        .cover-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid #ff4081;
+            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+            margin: 0 auto 12px auto;
+            display: block;
         }
         .player-title {
             color: #ff80ab;
             font-size: 14px;
             margin-bottom: 10px;
+            font-weight: 600;
         }
         .player-bar {
             width: 100%;
@@ -117,17 +128,19 @@
             margin-bottom: 12px;
         }
         .player-progress {
-            width: 50%;
+            width: 65%;
             height: 100%;
             background: #ff4081;
             box-shadow: 0 0 8px #ff4081;
+            border-radius: 3px;
         }
         .player-controls {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             font-size: 22px;
             color: #ffffff;
+            cursor: pointer;
         }
 
         .heart-particle {
@@ -146,76 +159,75 @@
 
     <div class="card-wrapper" id="card">
         <div class="img-container" id="imgBox">
-            <img id="sceneImg" src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" alt="Hello Kitty">
+            <img id="sceneImg" src="https://media.tenor.com/F3b1x7uO0n8AAAAC/hello-kitty-cute.gif" alt="Hello Kitty">
         </div>
         <div class="dialogue-text" id="sceneText">أنتِ آياتي؟ 🥺</div>
         
         <div id="btnArea">
-            <button class="action-btn" id="nextBtn" onclick="nextStep()">هلو آياتي 🌸</button>
+            <button class="action-btn" id="nextBtn" onclick="nextStep()">هلو 💕</button>
         </div>
 
-        <!-- مشغل الموسيقى مع صورة حبيبتك كواجهة -->
+        <!-- مشغل الأغنية مع صورتها كغلاف -->
         <div class="player-box" id="musicPlayer">
-            <div style="margin-bottom: 12px;">
-                <img src="my-love.jpg" alt="آياتي" style="width: 130px; height: 130px; border-radius: 18px; object-fit: cover; border: 2px solid #ff4081; box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);">
-            </div>
-            <div class="player-title">أغنيتنا المفضلة: رحمة رياض - ويلي 🎵</div>
+            <img src="my-love.jpg" alt="آياتي" class="cover-photo">
+            <div class="player-title">رحمة رياض - ويلي 🎵</div>
             <div class="player-bar">
                 <div class="player-progress"></div>
             </div>
             <div class="player-controls">
                 <span>⏮️</span>
-                <span>⏸️</span>
+                <span id="playIcon" onclick="toggleAudio()">⏸️</span>
                 <span>⏭️</span>
             </div>
         </div>
     </div>
 
-    <!-- ملف الأغنية -->
+    <!-- ملف الصوت المرفوع في المستودع -->
     <audio id="bgSong" src="song.mp3" preload="auto" loop></audio>
 
     <script>
         let currentStep = 0;
+        const audio = document.getElementById('bgSong');
 
         const steps = [
             {
-                img: "https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif",
+                img: "https://media.tenor.com/7b8N2wz4-lYAAAAC/hello-kitty-wave.gif",
                 text: "أيوته.. عندي سؤاال 🙈",
                 btn: "شنو هو؟ 💕"
             },
             {
-                img: "https://media.giphy.com/media/l41lFw0NUFUmeZfVK/giphy.gif",
-                text: "بس مستحي أسألك إياه 🥺👉👈",
+                img: "https://media.tenor.com/c1h54Vl_7i0AAAAC/hello-kitty-shy.gif",
+                text: "بس مستحي أسألج إياه 👉👈 🥺",
                 btn: "اسألني.. يلا ❤️"
             },
             {
-                img: "https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif",
+                img: "https://media.tenor.com/x0qH3nff1iMAAAAC/hello-kitty-love.gif",
                 text: "تحبين عمر لو لا؟ 👀💖",
                 btn: "ها؟ 🙈"
             },
             {
-                img: "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif",
+                img: "https://media.tenor.com/dK_vD2e9x-gAAAAC/hello-kitty-sad.gif",
                 text: "شنو ها؟ تحبين عمر لو لا؟ 🥺",
                 btn: "مدري 🤭"
             },
             {
-                img: "https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif",
+                img: "https://media.tenor.com/F3b1x7uO0n8AAAAC/hello-kitty-cute.gif",
                 text: "إذا تحبين عمر.. دوسي على هذا القلب 💖",
                 isHeart: true
             },
             {
-                img: "",
                 hideImg: true,
-                text: "في حبك ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
-                btn: "أعشقك وأحبك 🥹❤️",
+                text: "في حبكِ ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nوقلبي يهواكِ ويناديكِ،\nولو كان لي ألف قلب لأحببتكِ ولن يكفيني..\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
                 showPlayer: true
             }
         ];
 
         function nextStep() {
-            const audio = document.getElementById('bgSong');
+            // تشغيل الصوت فور أول لمسة للموقع
             if (audio.paused) {
-                audio.play().catch(e => console.log("Audio play deferred"));
+                audio.play().catch(function() {
+                    console.log("Audio waiting for user gesture");
+                });
             }
 
             if (currentStep < steps.length) {
@@ -236,19 +248,29 @@
 
                 if (s.isHeart) {
                     btnArea.innerHTML = `<button class="big-heart-btn" onclick="nextStep()">💖</button>`;
+                } else if (s.showPlayer) {
+                    document.getElementById('musicPlayer').style.display = 'block';
+                    btnArea.innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 19px; margin-top: 15px;">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
                 } else {
                     btnArea.innerHTML = `<button class="action-btn" onclick="nextStep()">${s.btn}</button>`;
-                }
-
-                if (s.showPlayer) {
-                    document.getElementById('musicPlayer').style.display = 'block';
-                    btnArea.innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 20px; margin-top: 10px;">أعشقك وأحبك يا عمر 🥹❤️</div>`;
                 }
 
                 currentStep++;
             }
         }
 
+        function toggleAudio() {
+            const playIcon = document.getElementById('playIcon');
+            if (audio.paused) {
+                audio.play();
+                playIcon.innerText = "⏸️";
+            } else {
+                audio.pause();
+                playIcon.innerText = "▶️";
+            }
+        }
+
+        // تساقط القلوب التفاعلية
         setInterval(function() {
             const h = document.createElement('div');
             h.innerHTML = '💖';
