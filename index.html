@@ -36,17 +36,19 @@
 
         .img-container {
             width: 100%;
-            height: 170px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
         }
 
-        .kitty-box {
-            width: 150px;
-            height: 150px;
-            filter: drop-shadow(0 6px 12px rgba(255, 64, 129, 0.3));
+        .kitty-pic {
+            max-width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 18px;
+            filter: drop-shadow(0 4px 12px rgba(255, 64, 129, 0.25));
         }
 
         .dialogue-text {
@@ -73,11 +75,8 @@
             font-family: 'Kufam', sans-serif;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
-            display: inline-block;
         }
-        .action-btn:active {
-            transform: scale(0.95);
-        }
+        .action-btn:active { transform: scale(0.95); }
 
         .big-heart-btn {
             background: none;
@@ -125,7 +124,6 @@
             font-family: 'Kufam', sans-serif;
             font-size: 14px;
             cursor: pointer;
-            margin-top: 5px;
         }
 
         .heart-particle {
@@ -144,7 +142,7 @@
 
     <div class="card-wrapper">
         <div class="img-container" id="imgBox">
-            <div class="kitty-box" id="kittyArea"></div>
+            <img id="kittyImg" class="kitty-pic" src="kitty1.png" alt="Hello Kitty" onerror="this.onerror=null; this.src='kitty1.jpg';">
         </div>
         <div class="dialogue-text" id="sceneText">أنتِ آياتي؟ 🥺</div>
         
@@ -155,72 +153,19 @@
         <div class="player-box" id="musicPlayer">
             <img src="my-love.jpg" alt="آياتي" class="cover-photo">
             <div class="player-title">رحمة رياض - ويلي 🎵</div>
-            <button class="audio-control-btn" id="playBtn" onclick="toggleAudio()">تشغيل الأغنية ▶️</button>
+            <button class="audio-control-btn" id="playBtn" onclick="toggleAudio()">إيقاف مؤقت ⏸️</button>
         </div>
     </div>
 
     <audio id="bgSong" src="song.mp3" loop preload="auto"></audio>
 
     <script>
-        // رسومات Hello Kitty بصيغة SVG خفيفة ومباشرة تضمن عدم التعليق
-        const svgs = {
-            hello: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5"/>
-                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
-                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
-                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
-                <ellipse cx="65" cy="85" rx="6.5" ry="9.5" fill="#1d1d1d"/>
-                <ellipse cx="135" cy="85" rx="6.5" ry="9.5" fill="#1d1d1d"/>
-                <ellipse cx="100" cy="95" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
-                <line x1="28" y1="84" x2="51" y2="87" stroke="#1d1d1d" stroke-width="4"/>
-                <line x1="25" y1="96" x2="49" y2="96" stroke="#1d1d1d" stroke-width="4"/>
-                <line x1="172" y1="84" x2="149" y2="87" stroke="#1d1d1d" stroke-width="4"/>
-                <line x1="175" y1="96" x2="151" y2="96" stroke="#1d1d1d" stroke-width="4"/>
-            </svg>`,
-            shy: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5"/>
-                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
-                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
-                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
-                <path d="M 54 84 Q 64 76 74 84" fill="none" stroke="#1d1d1d" stroke-width="5" stroke-linecap="round"/>
-                <path d="M 126 84 Q 136 76 146 84" fill="none" stroke="#1d1d1d" stroke-width="5" stroke-linecap="round"/>
-                <ellipse cx="48" cy="98" rx="11" ry="6" fill="#ff80ab"/>
-                <ellipse cx="152" cy="98" rx="11" ry="6" fill="#ff80ab"/>
-                <ellipse cx="100" cy="94" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
-                <!-- أصابع خجل متقابلة للداخل مضبوطة تماماً -->
-                <g transform="translate(68, 122)">
-                    <path d="M 0 5 C 0 0, 15 0, 15 5 L 15 10 C 15 13, 0 13, 0 10 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3"/>
-                    <path d="M 15 3 C 15 0, 32 0, 32 4 L 32 6 C 32 10, 15 10, 15 6 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3"/>
-                    <path d="M 64 5 C 64 0, 49 0, 49 5 L 49 10 C 49 13, 64 13, 64 10 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3"/>
-                    <path d="M 49 3 C 49 0, 32 0, 32 4 L 32 6 C 32 10, 49 10, 49 6 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="3"/>
-                </g>
-            </svg>`,
-            wink: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5"/>
-                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
-                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
-                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
-                <path d="M 52 86 Q 64 94 74 86" fill="none" stroke="#1d1d1d" stroke-width="5" stroke-linecap="round"/>
-                <ellipse cx="132" cy="85" rx="6.5" ry="9.5" fill="#1d1d1d"/>
-                <ellipse cx="100" cy="95" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
-            </svg>`,
-            love: `<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 45 60 L 30 15 L 75 35 C 90 30 110 30 125 35 L 170 15 L 155 60 C 185 85 185 140 100 140 C 15 140 15 85 45 60 Z" fill="#ffffff" stroke="#1d1d1d" stroke-width="5"/>
-                <circle cx="145" cy="45" r="13" fill="#ff4081" stroke="#1d1d1d" stroke-width="4"/>
-                <ellipse cx="127" cy="38" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 127 38)"/>
-                <ellipse cx="163" cy="52" rx="15" ry="11" fill="#ff80ab" stroke="#1d1d1d" stroke-width="4" transform="rotate(-15 163 52)"/>
-                <text x="48" y="96" font-size="28" fill="#ff4081">💖</text>
-                <text x="118" y="96" font-size="28" fill="#ff4081">💖</text>
-                <ellipse cx="100" cy="98" rx="8" ry="6" fill="#fbc02d" stroke="#1d1d1d" stroke-width="2.5"/>
-            </svg>`
-        };
-
         const scenes = [
-            { svg: svgs.hello, text: "أيوته.. عندي سؤاال 🙈", btn: "شنو هو؟ 💕" },
-            { svg: svgs.shy, text: "بس مستحي أسألج إياه 👉👈 🥺", btn: "اسألني.. يلا ❤️" },
-            { svg: svgs.wink, text: "تحبين عمر لو لا؟ 👀💖", btn: "ها؟ 🙈" },
-            { svg: svgs.shy, text: "شنو ها؟ تحبين عمر لو لا؟ 🥺", btn: "مدري 🤭" },
-            { svg: svgs.love, text: "إذا تحبين عمر.. دوسي على هذا القلب 💖", isHeart: true },
+            { img: "kitty1", text: "أيوته.. عندي سؤاال 🙈", btn: "شنو هو؟ 💕" },
+            { img: "kitty2", text: "بس مستحي أسألج إياه 👉👈 🥺", btn: "اسألني.. يلا ❤️" },
+            { img: "kitty3", text: "تحبين عمر لو لا؟ 👀💖", btn: "ها؟ 🙈" },
+            { img: "kitty2", text: "شنو ها؟ تحبين عمر لو لا؟ 🥺", btn: "مدري 🤭" },
+            { img: "kitty4", text: "إذا تحبين عمر.. دوسي على هذا القلب 💖", isHeart: true },
             { 
                 hide: true,
                 text: "في حبكِ ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nوقلبي يهواكِ ويناديكِ،\nولو كان لي ألف قلب لأحببتكِ ولن يكفيني..\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
@@ -229,58 +174,8 @@
         ];
 
         let index = 0;
-        document.getElementById('kittyArea').innerHTML = svgs.hello;
 
-        function goNext() {
-            if (index < scenes.length) {
-                const item = scenes[index];
-                document.getElementById('sceneText').innerText = item.text;
-
-                if (item.hide) {
-                    document.getElementById('imgBox').style.display = 'none';
-                } else if (item.svg) {
-                    document.getElementById('kittyArea').innerHTML = item.svg;
-                }
-
-                if (item.isHeart) {
-                    document.getElementById('btnArea').innerHTML = `<button class="big-heart-btn" onclick="goNext()">💖</button>`;
-                } else if (item.final) {
-                    document.getElementById('musicPlayer').style.display = 'block';
-                    document.getElementById('btnArea').innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 20px; margin-top: 15px;">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
-                    // تشغيل الصوت بعد الضغط على القلب الأخير
-                    const a = document.getElementById('bgSong');
-                    a.play().catch(function(){});
-                } else {
-                    document.getElementById('btnArea').innerHTML = `<button class="action-btn" onclick="goNext()">${item.btn}</button>`;
-                }
-
-                index++;
-            }
-        }
-
-        function toggleAudio() {
-            const a = document.getElementById('bgSong');
-            const btn = document.getElementById('playBtn');
-            if (a.paused) {
-                a.play();
-                btn.innerText = "إيقاف مؤقت ⏸️";
-            } else {
-                a.pause();
-                btn.innerText = "تشغيل الأغنية ▶️";
-            }
-        }
-
-        setInterval(function() {
-            const h = document.createElement('div');
-            h.innerHTML = '💖';
-            h.className = 'heart-particle';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = Math.random() * 16 + 12 + 'px';
-            h.style.animationDuration = Math.random() * 3 + 2.5 + 's';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 350);
-    </script>
-</body>
-</html>
-
+        function setImgSource(imgElement, baseName) {
+            imgElement.src = baseName + ".png";
+            imgElement.onerror = function
+                
