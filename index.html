@@ -34,21 +34,21 @@
             z-index: 10;
         }
 
-        .img-container {
+        .media-container {
             width: 100%;
-            height: 180px;
+            height: 190px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
         }
 
-        .kitty-pic {
+        .kitty-media {
             max-width: 100%;
-            max-height: 180px;
+            max-height: 190px;
             object-fit: contain;
             border-radius: 18px;
-            filter: drop-shadow(0 4px 12px rgba(255, 64, 129, 0.25));
+            filter: drop-shadow(0 4px 12px rgba(255, 64, 129, 0.3));
         }
 
         .dialogue-text {
@@ -141,9 +141,11 @@
 <body>
 
     <div class="card-wrapper">
-        <div class="img-container" id="imgBox">
-            <img id="kittyImg" class="kitty-pic" src="kitty1.png" alt="Hello Kitty" onerror="this.onerror=null; this.src='kitty1.jpg';">
+        <div class="media-container" id="mediaBox">
+            <img id="kittyImg" class="kitty-media" src="kitty1.gif" alt="Hello Kitty">
+            <video id="kittyVideo" class="kitty-media" src="kitty3.mp4" autoplay loop muted playsinline style="display:none;"></video>
         </div>
+
         <div class="dialogue-text" id="sceneText">أنتِ آياتي؟ 🥺</div>
         
         <div id="btnArea">
@@ -161,11 +163,11 @@
 
     <script>
         const scenes = [
-            { img: "kitty1", text: "أيوته.. عندي سؤاال 🙈", btn: "شنو هو؟ 💕" },
-            { img: "kitty2", text: "بس مستحي أسألج إياه 👉👈 🥺", btn: "اسألني.. يلا ❤️" },
-            { img: "kitty3", text: "تحبين عمر لو لا؟ 👀💖", btn: "ها؟ 🙈" },
-            { img: "kitty2", text: "شنو ها؟ تحبين عمر لو لا؟ 🥺", btn: "مدري 🤭" },
-            { img: "kitty4", text: "إذا تحبين عمر.. دوسي على هذا القلب 💖", isHeart: true },
+            { type: 'img', src: 'kitty1.gif', text: "أيوته.. عندي سؤاال 🙈", btn: "شنو هو؟ 💕" },
+            { type: 'img', src: 'kitty2.gif', text: "بس مستحي أسألج إياه 👉👈 🥺", btn: "اسألني.. يلا ❤️" },
+            { type: 'video', src: 'kitty3.mp4', text: "تحبين عمر لو لا؟ 👀💖", btn: "ها؟ 🙈" },
+            { type: 'img', src: 'kitty2.gif', text: "شنو ها؟ تحبين عمر لو لا؟ 🥺", btn: "مدري 🤭" },
+            { type: 'img', src: 'kitty4.gif', text: "إذا تحبين عمر.. دوسي على هذا القلب 💖", isHeart: true },
             { 
                 hide: true,
                 text: "في حبكِ ماذا أقول؟\nالقلم حائر بين السطور..\nأرسم ورداً فلديكِ أطيب العطور 🌸\nوقلبي يهواكِ ويناديكِ،\nولو كان لي ألف قلب لأحببتكِ ولن يكفيني..\nلو قلت أحبكِ فلن تكفيني،\nفأنا مريض بحبكِ فمن يداويني؟ 💖",
@@ -175,7 +177,65 @@
 
         let index = 0;
 
-        function setImgSource(imgElement, baseName) {
-            imgElement.src = baseName + ".png";
-            imgElement.onerror = function
-                
+        function goNext() {
+            if (index < scenes.length) {
+                const item = scenes[index];
+                document.getElementById('sceneText').innerText = item.text;
+
+                const imgEl = document.getElementById('kittyImg');
+                const videoEl = document.getElementById('kittyVideo');
+                const mediaBox = document.getElementById('mediaBox');
+
+                if (item.hide) {
+                    mediaBox.style.display = 'none';
+                } else if (item.type === 'video') {
+                    imgEl.style.display = 'none';
+                    videoEl.style.display = 'block';
+                    videoEl.currentTime = 0;
+                    videoEl.play().catch(function(){});
+                } else {
+                    videoEl.style.display = 'none';
+                    imgEl.style.display = 'block';
+                    imgEl.src = item.src;
+                }
+
+                if (item.isHeart) {
+                    document.getElementById('btnArea').innerHTML = `<button class="big-heart-btn" onclick="goNext()">💖</button>`;
+                } else if (item.final) {
+                    document.getElementById('musicPlayer').style.display = 'block';
+                    document.getElementById('btnArea').innerHTML = `<div style="color: #ff80ab; font-weight: 800; font-size: 20px; margin-top: 15px;">أعشقج وأحبج يا آياتي 🥹❤️</div>`;
+                    const a = document.getElementById('bgSong');
+                    a.play().catch(function(){});
+                } else {
+                    document.getElementById('btnArea').innerHTML = `<button class="action-btn" onclick="goNext()">${item.btn}</button>`;
+                }
+
+                index++;
+            }
+        }
+
+        function toggleAudio() {
+            const a = document.getElementById('bgSong');
+            const btn = document.getElementById('playBtn');
+            if (a.paused) {
+                a.play();
+                btn.innerText = "إيقاف مؤقت ⏸️";
+            } else {
+                a.pause();
+                btn.innerText = "تشغيل الأغنية ▶️";
+            }
+        }
+
+        setInterval(function() {
+            const h = document.createElement('div');
+            h.innerHTML = '💖';
+            h.className = 'heart-particle';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = Math.random() * 16 + 12 + 'px';
+            h.style.animationDuration = Math.random() * 3 + 2.5 + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }, 350);
+    </script>
+</body>
+</html>
